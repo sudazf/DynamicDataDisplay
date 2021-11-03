@@ -527,6 +527,10 @@ namespace Microsoft.Research.DynamicDataDisplay
 				try
 				{
 					UIElement visualProxy = CreateVisualProxy(child);
+                    if (visualProxy == null)
+                    {
+                        return;
+                    }
 					visualBindingCollection.Cache.Add(child, visualProxy);
 
 					if (performChildChecks && child.Plotter != null)
@@ -569,9 +573,10 @@ namespace Microsoft.Research.DynamicDataDisplay
 		}
 
 		private UIElement CreateVisualProxy(IPlotterElement child)
-		{
-			if (visualBindingCollection.Cache.ContainsKey(child))
-				throw new InvalidOperationException(Strings.Exceptions.VisualBindingsWrongState);
+        {
+            if (visualBindingCollection.Cache.ContainsKey(child))
+                return null;
+				//throw new InvalidOperationException(Strings.Exceptions.VisualBindingsWrongState);
 
 			UIElement result = child as UIElement;
 
